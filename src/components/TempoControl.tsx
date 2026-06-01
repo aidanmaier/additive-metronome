@@ -93,7 +93,11 @@ export default function TempoControl() {
             <Button 
               variant="outlined" 
               aria-label="Tap tempo" 
-              sx={{ width: 90, height: 50, boxShadow: 1 }}
+              sx={{ 
+                width: 90, 
+                height: 50, 
+                boxShadow: 1,
+              }}
               onClick={handleTapTempo}
             >
               TAP

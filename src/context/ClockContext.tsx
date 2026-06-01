@@ -1,11 +1,15 @@
-import { createContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
+import { createContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
 
 interface ClockContextType {
   time: Date;
   bpm: number;
+  playState: boolean;
+  flashState: boolean;
   setSpeed: (interval: number) => void;
   setBpm: (bpm: number) => void;
+  setPlayState: (state: boolean) => void;
+  setFlashState: (state: boolean) => void;
 }
 
 export const ClockContext = createContext<ClockContextType | null>(null);
@@ -18,6 +22,8 @@ interface ClockProviderProps {
 export const ClockProvider = ({ children, initialInterval = 1000 }: ClockProviderProps) => {
   const [time, setTime] = useState(new Date());
   const [intervalMs, setIntervalMs] = useState(initialInterval);
+  const [playState, setPlayState] = useState(false);
+  const [flashState, setFlashState] = useState(false);
 
   const bpm = Math.round(60000 / intervalMs);
 
@@ -37,7 +43,18 @@ export const ClockProvider = ({ children, initialInterval = 1000 }: ClockProvide
   };
 
   return (
-    <ClockContext.Provider value={{ time, bpm, setSpeed: setIntervalMs, setBpm }}>
+    <ClockContext.Provider 
+      value={{ 
+        time, 
+        bpm, 
+        playState, 
+        flashState, 
+        setSpeed: setIntervalMs, 
+        setBpm, 
+        setPlayState,
+        setFlashState,
+      }}
+    >
       {children}
     </ClockContext.Provider>
   );
