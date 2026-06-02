@@ -6,6 +6,7 @@ interface SoundContextType {
   step: number;
   setStep: (step: number) => void;
   sequence: Array<number>;
+  setSequence: (sequence: Array<number>) => void;
   volume: number;
   setVolume: (volume: number) => void;
   mute: boolean;
@@ -24,7 +25,7 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
   const audioRef = useRef<HTMLAudioElement[]>([]);
   const clockContext = useContext(ClockContext);
   const [step, setStep] = useState(0);
-  const sequence = [2, 0, 1, 0, 1, 0, 0];
+  const [sequence, setSequence] = useState([2, 0, 1, 0, 1, 0, 0]);
   const [volume, setVolume] = useState(50);
   const [mute, setMute] = useState(false);
   const [fill, setFill] = useState(false);
@@ -57,7 +58,6 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
   const playSound = (sound: number) => {
     const audio = audioRef.current[sound];
     if (!audio) return;
-
     audio.currentTime = 0;
     audio.play().catch((err) => {
       console.error("Failed to play audio:", err);
@@ -83,6 +83,7 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
         step,
         setStep,
         sequence,
+        setSequence,
         volume,
         setVolume,
         mute,

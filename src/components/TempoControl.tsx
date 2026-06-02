@@ -72,8 +72,8 @@ export default function TempoControl() {
                 Tempo
             </Typography>
             <TempoSlider 
-              min={20}
-              max={240}
+              min={60}
+              max={280}
               value={bpm}
               onChange={(v: number) => setBpm(v)}
             />

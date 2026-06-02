@@ -19,7 +19,7 @@ interface ClockProviderProps {
   initialInterval?: number;
 }
 
-export const ClockProvider = ({ children, initialInterval = 1000 }: ClockProviderProps) => {
+export const ClockProvider = ({ children, initialInterval = 268 }: ClockProviderProps) => {
   const [time, setTime] = useState(new Date());
   const [intervalMs, setIntervalMs] = useState(initialInterval);
   const [playState, setPlayState] = useState(false);
