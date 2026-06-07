@@ -47,16 +47,81 @@ export default function TempoControl() {
     }
   };
 
+  const playButton = (
+    <Button 
+      id="playButton"
+      variant="contained" 
+      aria-label="Start metronome" 
+      color={playState? "secondary" : "primary"}
+      sx={{ 
+        width: "100%",
+        height: 50 
+      }}
+      onClick={() => setPlayState(!playState)} // binary state
+    >
+      {playState ? 
+        <StopRoundedIcon fontSize="large" /> :
+        <PlayArrowRoundedIcon fontSize="large" />
+      }
+    </Button>
+  );
+  
+  const tapButton = (
+    <Button 
+      id="tapButton"
+      variant="outlined" 
+      aria-label="Tap tempo" 
+      sx={{ 
+        width: 100, 
+        height: 50, 
+        boxShadow: 1,
+        fontSize: "large",
+      }}
+      onClick={handleTapTempo}
+    >
+      TAP
+    </Button>
+  );
+
+    const displayShort = (
+    <Stack direction={"row"} >
+      <Stack direction={"column"} >
+        <CropSquareRoundedIcon htmlColor="green" />
+        <Typography className="music-font" >
+          {"\u2669"}
+        </Typography>
+      </Stack>
+      <NumberDisplay 
+        id={"shortBeatDisplay"} 
+        value={Math.round(bpm / 2)}
+      />  
+    </Stack>
+  );
+
+  const displayLong = (
+    <Stack direction={"row"} >
+      <Stack direction={"column"} >
+        <ChangeHistoryRoundedIcon htmlColor="orangered" />
+        <Typography className="music-font" >
+          {"\u2669"}.
+        </Typography>
+      </Stack>
+      <NumberDisplay 
+        id={"longBeatDisplay"}
+        value={Math.round(bpm / 3)}
+      />
+    </Stack>
+  );
+
   return (
     <Box 
-      className="tempo-container"
+      className="tempoControl-container"
       sx={{ 
-        flexGrow: 1,
         border: "1px solid lightgrey", 
         borderRadius: 2,
         m: 2,
         minWidth: 322,
-        maxWidth: 618,
+        maxWidth: 790,
       }} 
     >
       <Grid 
@@ -65,32 +130,30 @@ export default function TempoControl() {
         columnSpacing={2}
         sx={{ 
           m: 2, 
-          alignItems: "top",
+          alignItems: "center",
+          justifyContent: "center",
         }} 
       >
-        <Grid >
-          <Stack 
-            direction={"row"}
-            spacing={1.5}
+        <Grid id="tempoSlider-container" >
+          <Grid 
+            container
+            rowSpacing={4}
+            columnSpacing={2}
             sx={{ 
-              width: 280,
               alignItems: "center",
               justifyContent: "space-between"
-
             }} 
           >
-            <Typography>
-              Tempo (bpm)
-            </Typography>
+            <Typography> Tempo (bpm) </Typography>
             <TempoSlider 
               min={60}
               max={280}
               value={bpm}
               onChange={(v: number) => setBpm(v)}
             />
-          </Stack>
+          </Grid>
         </Grid>
-        <Grid >
+        <Grid id="tempoTap-container" >
           <Stack 
             direction={"column"}
             spacing={1.5}
@@ -99,8 +162,10 @@ export default function TempoControl() {
 
             }} 
           >
-            
-            <Stack direction={"row"} spacing={1.5}>
+            <Stack 
+              direction={"row"} 
+              spacing={1}
+            >
               <Typography className="music-font" >
                 {"\u266A"}
               </Typography>
@@ -111,73 +176,19 @@ export default function TempoControl() {
                 max={240}
               />
             </Stack>
-            
-            <Button 
-              variant="outlined" 
-              aria-label="Tap tempo" 
-              sx={{ 
-                width: 100, 
-                height: 50, 
-                boxShadow: 1,
-                fontSize: "large",
-              }}
-              onClick={handleTapTempo}
-            >
-              TAP
-            </Button>
+            {tapButton}
           </Stack>
         </Grid>
-        <Grid >
+        <Grid id="tempoPlay-container" >
           <Stack 
             direction={"column"}
             spacing={1.5} 
-            sx={{
-              flex: 1,
-            }}
           >
             <Stack direction={"row"} spacing={2} >
-              <Stack direction={"row"} >
-                <Stack direction={"column"} >
-                  <CropSquareRoundedIcon htmlColor="green" />
-                  <Typography className="music-font" >
-                    {"\u2669"}
-                  </Typography>
-                </Stack>
-                <NumberDisplay 
-                  id={"shortBeatDisplay"} 
-                  value={Math.round(bpm / 2)}
-                />  
-              </Stack>
-              <Stack direction={"row"} >
-                <Stack direction={"column"} >
-                  <ChangeHistoryRoundedIcon htmlColor="orangered" />
-                  <Typography className="music-font" >
-                    {"\u2669"}.
-                  </Typography>
-                </Stack>
-                <NumberDisplay 
-                  id={"longBeatDisplay"}
-                  value={Math.round(bpm / 3)}
-                />
-              </Stack>
+              {displayShort}
+              {displayLong}
             </Stack>
-            <Button 
-              id='playButton'
-              variant="contained" 
-              aria-label="Start metronome" 
-              color={playState? "secondary" : "primary"}
-              sx={{ 
-                // width: 160, 
-                width: "100%",
-                height: 50 
-              }}
-              onClick={() => setPlayState(!playState)} // binary state
-            >
-              {playState ? 
-                <StopRoundedIcon fontSize="large" /> :
-                <PlayArrowRoundedIcon fontSize="large" />
-              }
-            </Button>
+            {playButton}
           </Stack>
         </Grid>        
       </Grid>
