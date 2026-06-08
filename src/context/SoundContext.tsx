@@ -39,7 +39,7 @@ export const SoundProvider = ({ children }: SoundProviderProps) => {
     ];
 
     audioRef.current = audioSource.map((source) => {
-      const audioUrl = new URL("../audio/" + source.fileName, import.meta.url).href;
+      const audioUrl = new URL("/audio/" + source.fileName, import.meta.url).href;
       const audio = new Audio(audioUrl);
       audio.preload = "auto";
       return audio;
